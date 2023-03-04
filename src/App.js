@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MainHeader from "./components/MainHeader"
 import Cards from "./components/Cards"
+import WinScreen from "./components/WinScreen";
 
 
 
@@ -14,9 +15,9 @@ function App() {
 
   if(level <= 3){
     return (
-      <div className="App text-center  lg:w-full m-auto">
+      <div className="App text-center  lg:w-full m-auto backdrop-blur-[2px]">
   
-        <section className="bg-emerald-100 pb-10 ">
+        <section className="bg-emerald-100 pb-10  min-h-screen bg-opacity-70">
           <MainHeader cardsAmount={cardsAmount} level={level} difficulty={difficulty} correct = {correct}  />
           <Cards setCardsAmount={setCardsAmount} setCorrect={setCorrect} setDifficulty={setDifficulty}
           setLevel={setLevel}  correct={correct} level={level} cardsAmount={cardsAmount}/>
@@ -29,10 +30,10 @@ function App() {
 
   }else{
     return(
-      <div className="App text-center  lg:w-1/2 m-auto">
+      <div className="App text-center min-h-screen
+       bg-emerald-100 pb-10   bg-opacity-70  lg:w-full m-auto backdrop-blur-[2px] h-screen">
 
-      <MainHeader cardsAmount={cardsAmount} level={level} difficulty={difficulty} correct = {correct}  />
-      <div>YOU WON</div>
+      <WinScreen/>
 
       </div>
       )

@@ -32,30 +32,29 @@ import blueMushroom from "../pics/blueMushroom.gif"
 
 export default function Cards(props){
     const [cardsLists,setCardLists] = useState([
-        [[blueSnail,"blue snail"],[snail,"snail"],[stump,"stump"],[shroom,"shroom"],[slime,"slime"]], 
+        [[blueSnail,"Blue Snail"],[snail,"Snail"],[stump,"Stump"],[shroom,"Shroom"],[slime,"Slime"]], 
 
-        [[shroom,"shroom"],[slime,"slime"],[mano,"Mano"],[trojan,"toy Trojan"],[minerZombie,"miner zoombie"],
-        [octa,"octa"],[platoonChronos,"platoon Chronos"],[stoneGolem,"stone Golem"]],
+        [[shroom,"Shroom"],[slime,"Slime"],[mano,"Mano"],[trojan,"Toy Trojan"],[minerZombie,"Miner Zoombie"],
+        [octa,"Octa"],[platoonChronos,"Platoon Chronos"],[stoneGolem,"Stone Golem"]],
 
-
-        [[minerZombie,"miner zoombie"],[greenMushroom,"green Mushroom"],]
-        // [hornyMushroom,"Horny Mushroom"],[slime,"slime"],[zombieMushroom,"zoombie mushroom"]
-        // ,[bubbling,"Bubbling"],[orangeMushroom,"orange mushroom"],[blueMushroom,"blue mushroom"]]
+        [[minerZombie,"Miner zoombie"],[greenMushroom,"Green Mushroom"],
+        [hornyMushroom,"Horny Mushroom"],[slime,"Slime"],[zombieMushroom,"Zoombie Mushroom"]
+        ,[bubbling,"Bubbling"],[orangeMushroom,"Orange Mushroom"],[blueMushroom,"Blue Mushroom"]]
        
     ]) 
 
     const [cardsAmount,setCardsAmount] = useState(cardsLists[props.level - 1].length)
     const [mobNames,setMobNames] = useState(getNames(cardsLists[props.level - 1]))
-
     function getNames(list){
         let names = []
         for(let mob of list){
             names.push(mob[1])
         }
-
         return names
-
     }
+
+
+
     function handleCardClick(e){
         let fakeMobNames = [...mobNames]
 
@@ -64,40 +63,28 @@ export default function Cards(props){
             props.setCorrect(props.correct + 1)
             fakeMobNames.splice(fakeMobNames.indexOf(e.target.name),1)
             setMobNames(fakeMobNames)
-            console.log(fakeMobNames);
         }else{
-            
+            setMobNames(getNames(cardsLists[0]))
             props.setCorrect(0)
             props.setLevel(1)
-            setMobNames(["blue snail", "snail","stump","shroom","slime"])
 
         }
-    
     }
 
-
-
     useEffect(()=>{
+
         if(props.correct === cardsAmount && props.correct > 0){
-            if(props.level == 3){
+            if(props.level === 3){
                 props.setLevel(props.level + 1)
                 return  
             }
-            console.log('done')
-            let newMobs = []
-            for(let mob of cardsLists[props.level]){
-                newMobs.push(mob[1])
-            }
-            
-            
-            
+            props.setDifficulty(props.level < 2?'Medium':"Hard")
+
             
             props.setCorrect(0)
             props.setLevel(props.level + 1)
             
-
-            setMobNames(newMobs)
-            console.log(mobNames);
+            setMobNames(getNames(cardsLists[props.level]))
         }
     },[props.correct])
 
@@ -115,16 +102,19 @@ export default function Cards(props){
         }
 
         randomList  = randomList.map((mob)=>{
-           return <SingleCard handleCardClick={handleCardClick} name={mob[1]} mobPic={mob[0]} mob={mob} />
+           return <SingleCard handleCardClick={handleCardClick} 
+            name={mob[1]} mobPic={mob[0]} mob={mob} key={mob} />
         })
-
 
         return randomList
     }
 
+
+
         return(
             <section className="w-full">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 text-lg flex-wrap pt-10  m-auto w-3/4 justify-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 text-lg flex-wrap pt-10
+                  m-auto w-3/4 justify-center ">
                 {
                     generateCards(cardsLists[props.level - 1]) 
                  }
